@@ -1,0 +1,12 @@
+.env
+seeders
+alembic
+alembic.ini
+venv
+__pycache__
+.vscode
+auth/__pycache__
+config/__pycache__
+models/__pycache__
+modules/__pycache__
+schema/__pycache__
