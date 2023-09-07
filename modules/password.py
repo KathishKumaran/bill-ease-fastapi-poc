@@ -16,7 +16,7 @@ from email.mime.multipart import MIMEMultipart
 
 from fastapi import APIRouter, Depends, HTTPException, Header, status
 from auth.jwt import create_access_token_with_expiration, decode_access_token
-from schema.password_schema import EmailRequest, PasswordResetRequest, PasswordChangeRequest
+from schema.password_schema import EmailRequest, PasswordResetRequest, PasswordChangeRequest, PasswordResponse
 
 load_dotenv()
 
@@ -76,7 +76,7 @@ def send_email(email, reset_link):
         server.login(SMTP_USERNAME, SMTP_APP_PASSWORD)
         server.sendmail(msg['From'], msg['To'], msg.as_string())
 
-@password_router.post("/send_resend_password_link",tags=["Password"])
+@password_router.post("/send_resend_password_link",tags=["Password"],response_model=PasswordResponse)
 async def send_reset_password_link(email_data: EmailRequest):
     email = email_data.email
 
@@ -98,7 +98,7 @@ async def send_reset_password_link(email_data: EmailRequest):
     except Exception as e:
         raise HTTPException(status_code=500, detail="Failed to send reset password link")
 
-@password_router.post("/reset_password", tags=["Password"])
+@password_router.post("/reset_password", tags=["Password"],response_model=PasswordResponse)
 async def reset_password(
     new_password_data: PasswordResetRequest,
     authorization: str = Header(None),
@@ -137,7 +137,7 @@ async def reset_password(
 
     return {"message": "Password reset successfully"}
 
-@password_router.post("/change_password",tags=["Password"])
+@password_router.post("/change_password",tags=["Password"],response_model=PasswordResponse)
 def change_password(
     password_data: PasswordChangeRequest,
     user: User = Depends(get_current_user),

@@ -12,3 +12,5 @@ python-dotenv
 jsonschema
 bcrypt
 pydantic[email]
+python-multipart
+easyocr

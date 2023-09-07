@@ -6,6 +6,8 @@ from config.logger import logger
 from config.database import engine
 from fastapi.middleware.cors import CORSMiddleware
 from modules.routers import router as modules_router
+from fastapi.staticfiles import StaticFiles
+
 
 app = FastAPI()
 

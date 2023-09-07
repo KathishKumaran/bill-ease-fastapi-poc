@@ -10,3 +10,6 @@ class EmailRequest(BaseModel):
 class PasswordResetRequest(BaseModel):
     new_password: str
     confirm_new_password: str
+
+class PasswordResponse(BaseModel):
+    message: str
