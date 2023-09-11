@@ -1,7 +1,7 @@
 from sqlalchemy.sql import func
-from sqlalchemy.orm import relationship,validates
+from sqlalchemy.orm import relationship
 from sqlalchemy.ext.declarative import declarative_base
-from sqlalchemy import Boolean, Column, ForeignKey, Integer, String, DateTime,UniqueConstraint
+from sqlalchemy import Boolean, Column, ForeignKey, Integer, String, DateTime
 
 Base = declarative_base()
 
@@ -38,5 +38,3 @@ class Image(Base):
     deleted_at = Column(DateTime(timezone=True))
 
     owner = relationship("User", back_populates="images")
-
-
