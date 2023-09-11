@@ -1,7 +1,7 @@
 from sqlalchemy.sql import func
-from sqlalchemy.orm import relationship
+from sqlalchemy.orm import relationship,validates
 from sqlalchemy.ext.declarative import declarative_base
-from sqlalchemy import Boolean, Column, ForeignKey, Integer, String, DateTime
+from sqlalchemy import Boolean, Column, ForeignKey, Integer, String, DateTime,UniqueConstraint
 
 Base = declarative_base()
 
@@ -22,7 +22,7 @@ class User(Base):
     last_sign_in_ip = Column(String)
     confirmed_at = Column(DateTime(timezone=True))
     created_at = Column(DateTime(timezone=True), server_default=func.now())
-    updated_at = Column(DateTime(timezone=True), onupdate=func.now())
+    updated_at = Column(DateTime(timezone=True),onupdate=func.now())
     deleted_at = Column(DateTime(timezone=True))
 
     images = relationship("Image", back_populates="owner")

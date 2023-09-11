@@ -1,8 +1,7 @@
-# modules/routers.py
 from fastapi import APIRouter
-from .session import auth_router
-from .password import password_router
-from .image import image_router
+from controllers.image import image_router
+from controllers.session import auth_router
+from controllers.password import password_router
 
 router = APIRouter()
 

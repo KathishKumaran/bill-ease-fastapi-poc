@@ -5,9 +5,7 @@ from models.models import Base
 from config.logger import logger
 from config.database import engine
 from fastapi.middleware.cors import CORSMiddleware
-from modules.routers import router as modules_router
-from fastapi.staticfiles import StaticFiles
-
+from routes.routers import router as modules_router
 
 app = FastAPI()
 
@@ -21,7 +19,7 @@ app.add_middleware(
     allow_credentials=True,
 )
 
-app.include_router(modules_router)
+app.include_router(modules_router,prefix="/v1")
 
 @app.on_event("startup")
 def startup():

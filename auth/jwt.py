@@ -13,11 +13,6 @@ SECRET_KEY = os.getenv("SECRET_KEY")
 ALGORITHM=os.getenv("ALGORITHM")
 
 # For no expiration
-# def create_access_token(data: dict):
-#     to_encode = data.copy()
-#     encoded_jwt = jwt.encode(to_encode, SECRET_KEY, algorithm=ALGORITHM)
-#     return encoded_jwt
-
 def create_access_token(data: dict):
     login_attempt_id = str(uuid4())
     to_encode = data.copy()
