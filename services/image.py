@@ -2,24 +2,20 @@ import os
 import io
 import time
 import base64
+import logging
 import easyocr
-
-from fastapi import APIRouter
-
-from .dependencies import get_db
+from models.models import  Image
 from sqlalchemy.orm import Session
-from models.models import Image, User
 from config.database import SessionLocal
-from .dependencies import get_current_user
-from fastapi import Depends, File, UploadFile, HTTPException,Header,status
-from schema.image_schema import ExtractedImageResponse, ImageUploadResponse
+from fastapi import HTTPException,status
 
-image_router=APIRouter()
+# Suppress easyocr warnings by setting its logging level to a higher level
+logging.getLogger('easyocr').setLevel(logging.ERROR)
 
 reader = easyocr.Reader(['en'])
 
-@image_router.post("/file_upload", tags=["Image"],response_model=ImageUploadResponse)
-async def upload_image(file: UploadFile = File(...),authorization: str = Header(None), current_user: User = Depends(get_current_user)):
+def upload_image(file, authorization, current_user):
+    # Ensure Authorization Header is Present
     if authorization != f"Bearer {current_user.access_token}":
         raise HTTPException(
             status_code=status.HTTP_401_UNAUTHORIZED,
@@ -52,7 +48,7 @@ async def upload_image(file: UploadFile = File(...),authorization: str = Header(
         existing_image.image_url = None  # Remove the old URL
 
     image_folder = "assets"  # Choose an appropriate folder name
-    uploaded_image_name = file.filename+"_"+str(time.time()) + file_extension
+    uploaded_image_name = file.filename + "_" + str(time.time()) + file_extension
     uploaded_image_path = os.path.join(image_folder, uploaded_image_name)
 
     with open(uploaded_image_path, "wb") as image_file:
@@ -71,8 +67,8 @@ async def upload_image(file: UploadFile = File(...),authorization: str = Header(
 
     return {"message": "Image uploaded successfully"}
 
-@image_router.get("/extract_text", tags=["Image"],response_model=ExtractedImageResponse)
-def extract_text_from_image(user: User = Depends(get_current_user), authorization: str = Header(None),db: Session = Depends(get_db)):
+def extract_text_from_image(user, authorization, db):
+    # Ensure Authorization Header is Present
     if authorization != f"Bearer {user.access_token}":
         raise HTTPException(
             status_code=status.HTTP_401_UNAUTHORIZED,
@@ -111,9 +107,7 @@ def extract_text_from_image(user: User = Depends(get_current_user), authorizatio
         "image_data": image_base64,
     }
 
-    # return JSONResponse(content=response_content)
-    response = ExtractedImageResponse(**response_content)
-    return response
+    return response_content
 
 def get_image_binary(image_path):
     # Open the image file

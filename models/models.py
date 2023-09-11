@@ -22,7 +22,7 @@ class User(Base):
     last_sign_in_ip = Column(String)
     confirmed_at = Column(DateTime(timezone=True))
     created_at = Column(DateTime(timezone=True), server_default=func.now())
-    updated_at = Column(DateTime(timezone=True), onupdate=func.now())
+    updated_at = Column(DateTime(timezone=True),onupdate=func.now())
     deleted_at = Column(DateTime(timezone=True))
 
     images = relationship("Image", back_populates="owner")
@@ -38,5 +38,3 @@ class Image(Base):
     deleted_at = Column(DateTime(timezone=True))
 
     owner = relationship("User", back_populates="images")
-
-

@@ -1,5 +1,4 @@
 .env
-seeders
 alembic
 alembic.ini
 venv
@@ -8,6 +7,8 @@ __pycache__
 auth/__pycache__
 config/__pycache__
 models/__pycache__
-modules/__pycache__
 schema/__pycache__
 assets
+controllers/__pycache__
+services/__pycache__
+routes/__pycache__

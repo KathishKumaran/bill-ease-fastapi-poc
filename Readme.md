@@ -89,3 +89,22 @@ Brief project description.
     ```bash
     uvicorn main:app --host 0.0.0.0 --port 3000 --reload
     ```
+
+# Seed Data
+
+This section provides instructions on how to seed data for your project.
+
+1. Get into the seeders folder:
+
+   Use the `cd` command to navigate to the `seeders` folder where the seed data is located.
+
+
+    ```bash
+    cd seeders
+    ```
+
+2. Run the seeders.py file:
+
+    ```bash
+    python3 seed_users.py
+    ```

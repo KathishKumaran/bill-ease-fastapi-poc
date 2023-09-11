@@ -1,11 +1,11 @@
 import os
+from models.models import User
+from dotenv import load_dotenv
+from jose import jwt,  JWTError
+from sqlalchemy.orm import Session
 from config.database import SessionLocal
 from fastapi.security import OAuth2PasswordBearer
-from jose import jwt,  JWTError
 from fastapi import  Depends,  HTTPException, status
-from models.models import User
-from sqlalchemy.orm import Session
-from dotenv import load_dotenv
 
 # Load variables from .env into the environment
 load_dotenv()
